@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <!-- 配置mybatis的缓存，延迟加载等等一系列属性 -->
+  <settings>
+    <!-- 全局映射器启用缓存 -->
+    <setting name="cacheEnabled" value="false" />
+    <!-- 对于未知的SQL查询，允许返回不同的结果集以达到通用的效果 -->
+    <setting name="multipleResultSetsEnabled" value="true" />
+    <!-- 是否开启自动驼峰命名规则映射，数据库的A_COLUMN映射为Java中的aColumn -->
+    <setting name="mapUnderscoreToCamelCase" value="true" />
+    <!-- MyBatis利用本地缓存机制（Local Cache）防止循环引用（circular references）和加速重复嵌套查询 -->
+    <setting name="localCacheScope" value="STATEMENT" />
+  </settings>
+  <!-- 指定路径下的实体类支持别名(默认实体类的名称,首字母小写), @Alias注解可设置别名 -->
+  <typeAliases>
+    <package name="pvt.example.sophon.entity" />
+    <package name="pvt.example.sophon.domain" />
+  </typeAliases>
+  <!-- 配置当前环境信息 -->
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="org.sqlite.JDBC" />
+        <property name="url" value="jdbc:sqlite:${databasePath}" />
+      </dataSource>
+    </environment>
+  </environments>
+  <!-- 指定 mapper.xml 文件扫描路径 -->
+  <mappers>
+    <!-- package和class 只能扫描@Mapper注解,以及注解类的同名|同文件夹的mapper文件 -->
+    <!-- resource属性是注册一个个的mapper.xml文件  -->
+    <mapper resource="mapper/ManagerMapper.xml" />
+  </mappers>
+</configuration>

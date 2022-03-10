@@ -4,5 +4,4 @@
 ## 感谢
 智梓QQ机器人项目基于[Simpler-Robot](https://github.com/ForteScarlet/simpler-robot) 开发
 
-感谢[ForteScarlet]('https://github.com/ForteScarlet/') 对Simper-Robot开源
-
+感谢[ForteScarlet](https://github.com/ForteScarlet/) 对Simper-Robot开源

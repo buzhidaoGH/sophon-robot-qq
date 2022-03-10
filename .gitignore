@@ -2,6 +2,8 @@
 *.DS_store
 cache/
 # simbot.yml
+database/
+sophon-log/
 
 # IntelliJ project files
 .idea

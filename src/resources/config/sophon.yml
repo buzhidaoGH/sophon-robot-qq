@@ -1,0 +1,10 @@
+sophon:
+  name: 智梓
+  age: 18
+  gender: 女
+  birthday: 2022-3-9
+
+
+config:
+  mybatis-resource-path: /config/mybatis-config.xml
+  database-file-path: database/sophon.db

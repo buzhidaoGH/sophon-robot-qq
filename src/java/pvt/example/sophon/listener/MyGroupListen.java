@@ -3,6 +3,7 @@ package pvt.example.sophon.listener;
 import catcode.Neko;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.simbot.annotation.Listen;
+import love.forte.simbot.annotation.ListenGroup;
 import love.forte.simbot.annotation.OnGroup;
 import love.forte.simbot.api.message.MessageContent;
 import love.forte.simbot.api.message.containers.AccountInfo;
@@ -70,6 +71,7 @@ public class MyGroupListen {
     }
 
     @Listen(GroupAddRequest.class)
+    @ListenGroup("Group1")
     public void onGroupAddRequest(GroupAddRequest groupAddRequest){
         AccountInfo requestAccountInfo = groupAddRequest.getRequestAccountInfo();
         GroupInfo groupInfo = groupAddRequest.getGroupInfo();

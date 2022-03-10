@@ -3,7 +3,7 @@ package pvt.example.sophon.listener;
 import catcode.CatCodeUtil;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.common.ioc.annotation.Depend;
-import love.forte.simbot.annotation.Filter;
+import love.forte.simbot.annotation.Listen;
 import love.forte.simbot.annotation.OnPrivate;
 import love.forte.simbot.api.message.MessageContent;
 import love.forte.simbot.api.message.MessageContentBuilder;
@@ -37,8 +37,8 @@ public class MyPrivateListen {
      * 当然，你也可以使用 {@link love.forte.simbot.api.sender.MsgSender}，
      * 然后 {@code msgSender.SENDER}.
      */
+    @Listen(PrivateMsg.class)
     @OnPrivate
-    @Filter(atBot = true)
     public void replyPrivateMsg1(PrivateMsg privateMsg, Sender sender) {
         AccountInfo accountInfo = privateMsg.getAccountInfo();
         System.out.println("accountInfo = " + accountInfo);
