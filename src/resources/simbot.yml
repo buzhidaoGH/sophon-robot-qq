@@ -1,0 +1,9 @@
+simbot:
+  core:
+    bots: # 账号1:密码1,账号2:密码2
+
+robot:
+  name: 智梓
+  age: 18
+  gender: 女
+  birthday: 2022/3/9

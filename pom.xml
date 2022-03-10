@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>pvt.example</groupId>
+  <artifactId>sophon-robot-qq</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <simbot.version>2.3.4</simbot.version>
+  </properties>
+
+  <dependencies>
+    <!-- 使用 Mirai 组件 -->
+    <dependency>
+      <groupId>love.forte.simple-robot</groupId>
+      <artifactId>component-mirai</artifactId>
+      <version>${simbot.version}</version>
+    </dependency>
+
+    <!-- 首次QQ验证支持 -->
+    <!--<dependency>
+        <groupId>net.mamoe</groupId>
+        <artifactId>mirai-login-solver-selenium</artifactId>
+        <version>1.0-dev-17</version>
+    </dependency>-->
+
+    <!-- 定时任务模块 -->
+    <dependency>
+      <groupId>love.forte.simple-robot.time-task</groupId>
+      <artifactId>time-task-quartz</artifactId>
+      <version>${simbot.version}</version>
+    </dependency>
+    <!--<dependency>
+      <groupId>love.forte.simple-robot.time-task</groupId>
+      <artifactId>time-task-core</artifactId>
+      <version>${simbot.version}</version>
+    </dependency>-->
+  </dependencies>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>${project.basedir}/src/resources</directory>
+      </resource>
+    </resources>
+    <sourceDirectory>${project.basedir}/src/java</sourceDirectory>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+          <archive>
+            <addMavenDescriptor>false</addMavenDescriptor>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <useUniqueVersions>false</useUniqueVersions>
+              <classpathPrefix>lib/</classpathPrefix>
+              <mainClass>com.localhost.QQRobotApplication</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>  <!--在打包阶段将依赖的jar包导出到lib目录下-->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <type>jar</type>
+              <includeTypes>jar</includeTypes>
+              <outputDirectory>${project.build.directory}/lib</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
