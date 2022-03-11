@@ -79,7 +79,7 @@
     </dependency>
 
     <!-- httpclient客户端封装 -->
-    <dependency>
+    <!--<dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
       <version>4.5.13</version>
@@ -89,7 +89,8 @@
           <artifactId>commons-logging</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
+    </dependency>-->
+
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>

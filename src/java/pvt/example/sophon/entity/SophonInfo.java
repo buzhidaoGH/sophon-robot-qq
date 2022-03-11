@@ -1,5 +1,6 @@
 package pvt.example.sophon.entity;
 
+import love.forte.common.ioc.annotation.Beans;
 import pvt.example.sophon.utils.DateUtils;
 import pvt.example.sophon.utils.YamlUtils;
 
@@ -9,6 +10,7 @@ import java.util.Map;
  * 类&emsp;&emsp;名：SophonInfo <br/>
  * 描&emsp;&emsp;述：智梓的基本信息
  */
+@Beans
 public class SophonInfo {
     private static final String name;
     private static final int age;

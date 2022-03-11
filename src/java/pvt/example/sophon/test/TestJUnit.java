@@ -1,12 +1,5 @@
 package pvt.example.sophon.test;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -16,13 +9,15 @@ import pvt.example.sophon.SophonRobotInitConfig;
 import pvt.example.sophon.config.SophonInitConfig;
 import pvt.example.sophon.dao.ManagerDao;
 import pvt.example.sophon.domain.Manager;
+import pvt.example.sophon.entity.JVMInfo;
 import pvt.example.sophon.entity.SophonInfo;
+import pvt.example.sophon.entity.SystemInfo;
 import pvt.example.sophon.utils.FileIOUtils;
+import pvt.example.sophon.utils.HttpClientUtils;
 import pvt.example.sophon.utils.StringUtils;
 import pvt.example.sophon.utils.YamlUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -44,10 +39,34 @@ public class TestJUnit {
 
     public static void main(String[] args) {
         TestJUnit testJUnit = new TestJUnit();
-        testJUnit.test09();
+        testJUnit.test12();
     }
 
-    private void test09() {
+    private void test12(){
+        JVMInfo jvmInfo = new JVMInfo();
+        System.out.println("jvmInfo = " + jvmInfo);
+        SystemInfo systemInfo = new SystemInfo();
+        System.out.println("systemInfo = " + systemInfo);
+    }
+
+    private void test11() {
+        Runtime run = Runtime.getRuntime();
+        System.out.println("JVM可以使用的总内存:    " + run.totalMemory()/(1024*1024));
+        System.out.println("JVM可以使用的剩余内存:    " + run.freeMemory()/(1024*1024));
+        System.out.println("JVM可以使用的处理器个数:    " + run.availableProcessors());
+
+        Properties props = System.getProperties();
+        System.out.println("Java的虚拟机实现版本：    " + props.getProperty("java.vm.version"));
+        System.out.println("Java的虚拟机实现供应商：    " + props.getProperty("java.vm.vendor"));
+        System.out.println("Java的虚拟机实现名称：    " + props.getProperty("java.vm.name"));
+    }
+
+    private void test10() {
+        String s = HttpClientUtils.sendGetHttp("https://ifconfig.me/ip", null);
+        System.out.println("s = " + s);
+    }
+
+    /*private void test09() {
         CloseableHttpClient aDefault = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet("https://ifconfig.me/ip");
         RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(35000)// 连接主机服务超时时间
@@ -55,7 +74,6 @@ public class TestJUnit {
                                                    .setSocketTimeout(60000)// 数据读取超时时间
                                                    .build();
         httpGet.setConfig(requestConfig);
-
         try {
             CloseableHttpResponse response = aDefault.execute(httpGet);
             // 通过返回对象获取返回数据
@@ -73,8 +91,7 @@ public class TestJUnit {
                 e.printStackTrace();
             }
         }
-
-    }
+    }*/
 
     private void test01() {
         Connection conn = null;
