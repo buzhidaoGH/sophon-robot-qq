@@ -13,14 +13,14 @@ import pvt.example.sophon.utils.FileIOUtils;
 @SimbotApplication
 public class SophonRobotApplication {
     static {
-        // logback日志初始化加载
-        SophonRobotInitConfig.logbackCreateInit();
+        SophonRobotInitConfig.logbackCreateInit(); // logback日志初始化加载
     }
 
     private static final Logger LOG = LoggerFactory.getLogger(SophonRobotApplication.class);
 
     public static void main(String[] args) {
         SimbotApp.run(SophonRobotApplication.class, args);
+        LOG.info("智梓系统成功启动!");
         FileIOUtils.printFileLine("/config/banner.txt");
     }
 }

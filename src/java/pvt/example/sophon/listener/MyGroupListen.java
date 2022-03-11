@@ -3,16 +3,14 @@ package pvt.example.sophon.listener;
 import catcode.Neko;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.simbot.annotation.Listen;
-import love.forte.simbot.annotation.ListenGroup;
 import love.forte.simbot.annotation.OnGroup;
+import love.forte.simbot.annotation.Priority;
 import love.forte.simbot.api.message.MessageContent;
-import love.forte.simbot.api.message.containers.AccountInfo;
 import love.forte.simbot.api.message.containers.GroupAccountInfo;
 import love.forte.simbot.api.message.containers.GroupInfo;
-import love.forte.simbot.api.message.events.GroupAddRequest;
 import love.forte.simbot.api.message.events.GroupMsg;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import love.forte.simbot.api.message.events.PrivateMsg;
+import love.forte.simbot.constant.PriorityConstant;
 
 import java.util.List;
 
@@ -23,14 +21,7 @@ import java.util.List;
  */
 @Beans
 public class MyGroupListen {
-    /** log日志工厂 */
-    private static final Logger LOG = LoggerFactory.getLogger(MyGroupListen.class);
 
-    /**
-     * 此监听函数代表，收到消息的时候，将消息的各种信息打印出来。
-     * 此处使用的是模板注解 {@link OnGroup}, 其代表监听一个群消息。
-     * 由于你监听的是一个群消息，因此你可以通过 {@link GroupMsg} 作为参数来接收群消息内容。
-     */
     @OnGroup
     public void onGroupMsg(GroupMsg groupMsg) {
         // 打印此次消息中的 纯文本消息内容。
@@ -70,13 +61,11 @@ public class MyGroupListen {
         System.out.println(groupInfo.getGroupName());
     }
 
-    @Listen(GroupAddRequest.class)
-    @ListenGroup("Group1")
-    public void onGroupAddRequest(GroupAddRequest groupAddRequest){
-        AccountInfo requestAccountInfo = groupAddRequest.getRequestAccountInfo();
-        GroupInfo groupInfo = groupAddRequest.getGroupInfo();
-        System.out.println("groupInfo = " + groupInfo);
-        System.out.println("requestAccountInfo = " + requestAccountInfo);
+    @Listen(PrivateMsg.class)
+    @Priority(PriorityConstant.THIRD)
+    public void onGroupAddRequest(PrivateMsg groupAddRequest){
+        System.out.println("PriorityConstant.THIRD:"+ groupAddRequest.getText());
     }
+
 }
 

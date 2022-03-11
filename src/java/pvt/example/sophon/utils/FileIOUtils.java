@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 /**
  * 类&emsp;&emsp;名：FileIOUtils <br/>
- * 描&emsp;&emsp;述：NIO的File处理工具
+ * 描&emsp;&emsp;述：IO的File处理工具
  */
 public class FileIOUtils {
     private static final Logger LOG = LoggerFactory.getLogger(FileIOUtils.class);

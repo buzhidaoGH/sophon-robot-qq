@@ -17,7 +17,7 @@ import java.util.Properties;
 
 /**
  * 类&emsp;&emsp;名：SophonDataSource <br/>
- * 描&emsp;&emsp;述：Sophon的数据库设置
+ * 描&emsp;&emsp;述：Sophon的初始化设置
  */
 @ConfigBeans
 public class SophonInitConfig {
@@ -39,5 +39,10 @@ public class SophonInitConfig {
     public SqlSession getSqlSession() {
         // 默认不会自动提交事务
         return sqlSessionFactory.openSession();
+    }
+    @Beans("autoSqlSession")
+    public SqlSession getSqlSessionAuto() {
+        // 自动commit提交事务
+        return sqlSessionFactory.openSession(true);
     }
 }

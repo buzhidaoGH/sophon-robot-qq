@@ -2,7 +2,7 @@ package pvt.example.sophon.domain;
 
 /**
  * 类&emsp;&emsp;名：Manager <br/>
- * 描&emsp;&emsp;述：
+ * 描&emsp;&emsp;述：管理员映射Bean类
  */
 public class Manager {
     private int pkId;

@@ -1,7 +1,7 @@
 ### Robot Cache
 *.DS_store
 cache/
-# simbot.yml
+simbot.yml
 database/
 sophon-log/
 

@@ -1,9 +1,10 @@
 sophon:
   name: 智梓
-  age: 18
+  age: '18'
   gender: 女
   birthday: 2022-3-9
-
+  hobby: 听音乐、唱歌、弹吉他、交朋友、聊天、养生、看书、学习、旅游、玩耍
+  personality: 对所有新鲜事物都保佑好奇心
 
 config:
   mybatis-resource-path: /config/mybatis-config.xml
