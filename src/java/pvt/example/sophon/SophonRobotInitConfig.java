@@ -6,6 +6,7 @@ import ch.qos.logback.core.joran.spi.JoranException;
 import ch.qos.logback.core.util.StatusPrinter;
 import org.slf4j.LoggerFactory;
 import pvt.example.sophon.utils.StringUtils;
+import pvt.example.sophon.utils.YamlUtils;
 
 /**
  * 类&emsp;&emsp;名：SophonRobotInitConfig <br/>
@@ -13,7 +14,8 @@ import pvt.example.sophon.utils.StringUtils;
  */
 public class SophonRobotInitConfig {
     public static void logbackCreateInit(){
-        String path = SophonRobotInitConfig.class.getResource("/config/logback.xml").getPath();
+        String config = YamlUtils.getSophonByKey("config").get("logback-resource-path");
+        String path = SophonRobotInitConfig.class.getResource(config).getPath();
         if (path != null && StringUtils.isEmpty(System.getProperty("logback.configurationFile"))) {
             LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
             JoranConfigurator configurator = new JoranConfigurator();

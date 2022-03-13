@@ -2,6 +2,7 @@ package pvt.example.sophon.utils;
 
 import com.sun.management.OperatingSystemMXBean;
 
+import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -46,7 +47,7 @@ public class SystemUtils {
      */
     public static String getSystemWanAddress() {
         try {
-            return HttpClientUtils.sendGetHttp("https://ifconfig.me/ip", null);
+            return HttpClientUtils.sendGetHttp("https://ifconfig.me/ip", null).trim();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -75,5 +76,27 @@ public class SystemUtils {
         memoryMap.put("freeMemory", freeMemory + " MB");
         memoryMap.put("useMemory", useMemory + " MB");
         return memoryMap;
+    }
+
+    /**
+     * 系统级硬盘容量 MB
+     * @return totalDiskSpace, freeDiskSpace, useDiskSpace
+     */
+    public static Map<String, String> getSystemDisk() {
+        Map<String, String> diskMap = new HashMap<String, String>();
+        long totalDiskSpace = 0L;
+        long freeDiskSpace = 0L;
+        long useDiskSpace = 0L;
+        for (File file : File.listRoots()) {
+            // 获取总容量
+            totalDiskSpace += file.getTotalSpace();
+            // 获取剩余容量
+            useDiskSpace += file.getUsableSpace();
+        }
+        freeDiskSpace = totalDiskSpace - useDiskSpace;
+        diskMap.put("totalDiskSpace", totalDiskSpace / byteToMb + " MB");
+        diskMap.put("freeDiskSpace", freeDiskSpace / byteToMb + " MB");
+        diskMap.put("useDiskSpace", useDiskSpace / byteToMb + " MB");
+        return diskMap;
     }
 }

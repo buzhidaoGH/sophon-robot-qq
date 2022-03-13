@@ -2,6 +2,7 @@ package pvt.example.sophon;
 
 import love.forte.simbot.annotation.SimbotApplication;
 import love.forte.simbot.core.SimbotApp;
+import love.forte.simbot.core.SimbotContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pvt.example.sophon.utils.FileIOUtils;
@@ -12,6 +13,7 @@ import pvt.example.sophon.utils.FileIOUtils;
  */
 @SimbotApplication
 public class SophonRobotApplication {
+
     static {
         SophonRobotInitConfig.logbackCreateInit(); // logback日志初始化加载
     }
@@ -19,7 +21,7 @@ public class SophonRobotApplication {
     private static final Logger LOG = LoggerFactory.getLogger(SophonRobotApplication.class);
 
     public static void main(String[] args) {
-        SimbotApp.run(SophonRobotApplication.class, args);
+        SimbotContext run = SimbotApp.run(SophonRobotApplication.class, args);
         LOG.info("智梓系统成功启动!");
         FileIOUtils.printFileLine("/config/banner.txt");
     }

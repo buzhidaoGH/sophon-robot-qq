@@ -34,5 +34,7 @@
     <!-- package和class 只能扫描@Mapper注解,以及注解类的同名|同文件夹的mapper文件 -->
     <!-- resource属性是注册一个个的mapper.xml文件  -->
     <mapper resource="mapper/ManagerMapper.xml" />
+    <mapper resource="mapper/AdminMapper.xml" />
+    <mapper resource="mapper/DictMapper.xml" />
   </mappers>
 </configuration>

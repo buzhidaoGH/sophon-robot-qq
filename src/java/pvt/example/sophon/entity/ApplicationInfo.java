@@ -1,7 +1,5 @@
 package pvt.example.sophon.entity;
 
-import love.forte.common.ioc.annotation.Beans;
-import love.forte.common.ioc.annotation.Depend;
 import love.forte.simbot.api.message.containers.BotInfo;
 import love.forte.simbot.bot.Bot;
 import love.forte.simbot.bot.BotManager;
@@ -10,16 +8,13 @@ import love.forte.simbot.bot.BotManager;
  * 类&emsp;&emsp;名：ApplicationInfo <br/>
  * 描&emsp;&emsp;述：Application应用信息
  */
-@Beans
 public class ApplicationInfo {
-    @Depend
-    private BotManager botManager;
     private String accountAvatar;
     private final String accountCode;
     private String accountNickname;
     private String accountLevel;
 
-    {
+    public ApplicationInfo(BotManager botManager){
         Bot defaultBot = botManager.getDefaultBot();
         BotInfo botInfo = defaultBot.getBotInfo();
         accountAvatar = botInfo.getAccountAvatar();

@@ -4,6 +4,7 @@ cache/
 simbot.yml
 database/
 sophon-log/
+dir/
 
 # IntelliJ project files
 .idea

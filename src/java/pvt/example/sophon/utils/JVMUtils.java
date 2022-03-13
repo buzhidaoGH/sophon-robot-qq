@@ -24,7 +24,7 @@ public class JVMUtils {
         memoryMap.put("totalMemory", totalMemory + " MB");
         memoryMap.put("freeMemory", freeMemory + " MB");
         memoryMap.put("useMemory", useMemory + " MB");
-        memoryMap.put("processors", processors + " 处理器");
+        memoryMap.put("processors", processors + " 核处理");
         return memoryMap;
     }
 }

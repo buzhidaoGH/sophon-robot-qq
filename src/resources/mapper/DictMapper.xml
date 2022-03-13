@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pvt.example.sophon.dao.DictDao">
+  <resultMap id="BaseResultMap" type="dict">
+    <id property="pkId" column="pk_id" />
+    <result property="fdKey" column="fd_key" />
+    <result property="fdValue" column="fd_value" />
+  </resultMap>
+  <sql id="selectSql">
+    SELECT pk_id, fd_key, fd_value FROM tab_dict
+  </sql>
+  <select id="getByFdKey" resultMap="BaseResultMap">
+    <include refid="selectSql" />
+    WHERE fd_key = #{key}
+  </select>
+</mapper>

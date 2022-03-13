@@ -1,6 +1,7 @@
 package pvt.example.sophon.entity;
 
 import love.forte.common.ioc.annotation.Beans;
+import love.forte.common.ioc.annotation.Constr;
 import pvt.example.sophon.utils.JVMUtils;
 import pvt.example.sophon.utils.SystemUtils;
 
@@ -10,7 +11,7 @@ import java.util.Map;
  * 类&emsp;&emsp;名：JVMInfo <br/>
  * 描&emsp;&emsp;述：JVM虚拟机信息
  */
-@Beans
+@Beans(init = true)
 public class JVMInfo {
     private final String jvmVersion;
     private final String jvmVendor;
@@ -30,6 +31,17 @@ public class JVMInfo {
         useMemory = jvmMemory.get("useMemory");
         freeMemory = jvmMemory.get("freeMemory");
     }
+
+    private static final JVMInfo jvmInfo = new JVMInfo();
+
+    private JVMInfo() {
+    }
+
+    @Constr
+    public static JVMInfo getJVMInfo() {
+        return jvmInfo;
+    }
+
 
     public void setUseMemory(String useMemory) {
         this.useMemory = useMemory;

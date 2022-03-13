@@ -1,5 +1,7 @@
 package pvt.example.sophon.test;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -12,19 +14,17 @@ import pvt.example.sophon.domain.Manager;
 import pvt.example.sophon.entity.JVMInfo;
 import pvt.example.sophon.entity.SophonInfo;
 import pvt.example.sophon.entity.SystemInfo;
-import pvt.example.sophon.utils.FileIOUtils;
-import pvt.example.sophon.utils.HttpClientUtils;
-import pvt.example.sophon.utils.StringUtils;
-import pvt.example.sophon.utils.YamlUtils;
+import pvt.example.sophon.utils.*;
 
-import java.io.File;
-import java.io.InputStream;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ExecutorService;
 
 /**
  * 类&emsp;&emsp;名：TestJUnit <br/>
@@ -39,22 +39,86 @@ public class TestJUnit {
 
     public static void main(String[] args) {
         TestJUnit testJUnit = new TestJUnit();
-        testJUnit.test12();
+        // testJUnit.test10();
+        // System.out.println("127.0.0.1");
+        testJUnit.test17();
     }
 
-    private void test12(){
-        JVMInfo jvmInfo = new JVMInfo();
+    private void test18() {
+        String s = HttpClientUtils.downloaderUrlResource("GET",
+                                                         "http://music.163.com/song/media/outer/url?id=1849998058.mp3",
+                                                         "dir/");
+        System.out.println("s = " + s);
+
+    }
+
+    private void test17() {
+        Map<String, String> randomMusic = HttpClientUtils.getRandomMusic();
+        assert randomMusic != null;
+        for (String value : randomMusic.values()) {
+            System.out.println(value);
+        }
+    }
+
+    private void test16() {
+        Map<String, String> musicName = ApiUtils.queryMusic163ByName("啦啦啦啦啦啦");
+        if (musicName == null) { return;}
+        for (String key : musicName.keySet()) {
+            System.out.print(key + " : ");
+            System.out.println(musicName.get(key));
+        }
+    }
+
+    private void test15() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("s", "千里行走");
+        map.put("offset", "0");
+        map.put("limit", "1");
+        map.put("type", "1");
+        String s = HttpClientUtils.sendPostHttp("http://music.163.com/api/search/pc", map,
+                                                "NMTID=00OiMNeaAU1ca1BlEVqsyfR7rhBsokAAAF_gd3uNw");
+        JSONObject jsonObject = JsonParseUtils.jsonExtract(s);
+        JSONObject result = jsonObject.getJSONObject("result");
+        JSONArray jsonArray = result.getJSONArray("songs");
+        JSONObject song = jsonArray.getJSONObject(0);
+        String name = song.getString("name");
+        String id = song.getString("id");
+        System.out.println("id = " + id);
+        System.out.println("name = " + name);
+    }
+
+    private void test14() {
+        ExecutorService threadPool = SophonInitConfig.getThreadPool();
+        for (int i = 0; i < 40; i++) {
+            threadPool.execute(() -> {
+                System.out.println(Thread.currentThread().getName());
+            });
+        }
+        threadPool.shutdown();
+    }
+
+    private void test13() {
+        long startTime = System.currentTimeMillis();
+        Map<String, String> weatherMap = ApiUtils.queryWeatherByCityApi("长沙");
+        if (weatherMap == null) { return; }
+        String phrase = weatherMap.get("phrase");
+        System.out.println("phrase = " + phrase);
+        long endTime = System.currentTimeMillis();
+        System.out.println(endTime - startTime);
+    }
+
+    private void test12() {
+        JVMInfo jvmInfo = JVMInfo.getJVMInfo();
         System.out.println("jvmInfo = " + jvmInfo);
-        SystemInfo systemInfo = new SystemInfo();
+        SystemInfo systemInfo = SystemInfo.getSystemInfo();
         System.out.println("systemInfo = " + systemInfo);
     }
 
     private void test11() {
         Runtime run = Runtime.getRuntime();
-        System.out.println("JVM可以使用的总内存:    " + run.totalMemory()/(1024*1024));
-        System.out.println("JVM可以使用的剩余内存:    " + run.freeMemory()/(1024*1024));
+        System.out.println("JVM可以使用的总内存:    " + run.totalMemory() / (1024 * 1024));
+        System.out.println("JVM可以使用的剩余内存:    " + run.freeMemory() / (1024 * 1024));
         System.out.println("JVM可以使用的处理器个数:    " + run.availableProcessors());
-
         Properties props = System.getProperties();
         System.out.println("Java的虚拟机实现版本：    " + props.getProperty("java.vm.version"));
         System.out.println("Java的虚拟机实现供应商：    " + props.getProperty("java.vm.vendor"));
@@ -63,7 +127,7 @@ public class TestJUnit {
 
     private void test10() {
         String s = HttpClientUtils.sendGetHttp("https://ifconfig.me/ip", null);
-        System.out.println("s = " + s);
+        System.out.println("s = " + s.trim());
     }
 
     /*private void test09() {

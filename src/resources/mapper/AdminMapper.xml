@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pvt.example.sophon.dao.AdminDao">
+  <resultMap id="BaseResultMap" type="admin">
+    <id property="pkId" column="pk_id" />
+    <result property="fdAccount" column="fd_account" />
+    <result property="fdNickname" column="fd_nickname" />
+    <result property="fdGroup" column="fd_group" />
+    <result property="fdRole" column="fd_role" />
+  </resultMap>
+  <sql id="selectSql">
+    SELECT pk_id, fd_account, fd_nickname, fd_group, fd_role FROM tab_admin
+  </sql>
+</mapper>
