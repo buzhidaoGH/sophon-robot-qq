@@ -56,4 +56,15 @@ public class DateUtils {
         }
         return date;
     }
+
+    public static String timestampToFormat(long time, String formatStr) {
+        if (time == -1L) {
+            return "不支持查询";
+        }
+        Date date = new Date(time);
+        String dateStr = null;
+        SimpleDateFormat sdf = new SimpleDateFormat(formatStr);
+        dateStr = sdf.format(date);
+        return dateStr;
+    }
 }

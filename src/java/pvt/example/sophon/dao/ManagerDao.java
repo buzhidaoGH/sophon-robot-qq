@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface ManagerDao {
     public List<Manager> selectAllManager();
+
+    public boolean insertManager(Manager manager);
 }

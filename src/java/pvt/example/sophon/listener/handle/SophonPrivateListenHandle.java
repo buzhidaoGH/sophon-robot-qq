@@ -6,7 +6,6 @@ import love.forte.simbot.api.message.MessageContentBuilder;
 import love.forte.simbot.api.message.MessageContentBuilderFactory;
 import love.forte.simbot.api.message.containers.AccountInfo;
 import love.forte.simbot.api.sender.Sender;
-import love.forte.simbot.bot.BotManager;
 import pvt.example.sophon.config.SophonInitConfig;
 import pvt.example.sophon.service.DictService;
 import pvt.example.sophon.utils.ApiUtils;
@@ -26,8 +25,6 @@ public class SophonPrivateListenHandle {
     private MessageContentBuilderFactory builderFactory;
     @Depend
     private DictService dictService;
-    @Depend
-    private BotManager botManager;
 
     /**
      * 帮助命令信息发送

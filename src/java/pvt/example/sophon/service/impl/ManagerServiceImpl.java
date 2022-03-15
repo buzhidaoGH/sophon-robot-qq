@@ -16,15 +16,13 @@ import java.util.List;
  */
 @Beans
 public class ManagerServiceImpl implements ManagerService {
-    private final ManagerDao managerDao;
-    {
-        SqlSession sqlSession = SophonInitConfig.getSqlSession();
-        managerDao = sqlSession.getMapper(ManagerDao.class);
-    }
 
     @Override
     public List<String> managerAccountList() {
+        SqlSession sqlSession = SophonInitConfig.getSqlSession();
+        ManagerDao managerDao = sqlSession.getMapper(ManagerDao.class);
         List<Manager> managerList = managerDao.selectAllManager();
+        sqlSession.close();
         List<String> managerAccountList = new ArrayList<String>();
         for (Manager manager : managerList) {
             managerAccountList.add(manager.getFdAccount());

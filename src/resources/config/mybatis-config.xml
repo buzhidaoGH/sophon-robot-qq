@@ -36,5 +36,6 @@
     <mapper resource="mapper/ManagerMapper.xml" />
     <mapper resource="mapper/AdminMapper.xml" />
     <mapper resource="mapper/DictMapper.xml" />
+    <mapper resource="mapper/GroupMapper.xml" />
   </mappers>
 </configuration>

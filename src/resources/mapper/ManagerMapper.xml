@@ -10,6 +10,11 @@
   <sql id="selectSql">
     SELECT pk_id, fd_account, fd_nickname, fd_role FROM tab_manager
   </sql>
+  <insert id="insertManager">
+    INSERT
+    INTO tab_manager(`fd_account`, `fd_nickname`, `fd_role`)
+    VALUES (#{fdAccount}, #{fdNickname}, #{fdRole})
+  </insert>
 
   <select id="selectAllManager" resultMap="BaseResultMap">
     <include refid="selectSql" />

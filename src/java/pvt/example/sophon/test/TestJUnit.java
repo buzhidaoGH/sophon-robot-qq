@@ -1,5 +1,6 @@
 package pvt.example.sophon.test;
 
+import catcode.Neko;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.ibatis.session.SqlSession;
@@ -16,14 +17,12 @@ import pvt.example.sophon.entity.SophonInfo;
 import pvt.example.sophon.entity.SystemInfo;
 import pvt.example.sophon.utils.*;
 
-import java.io.*;
+import java.io.File;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -41,7 +40,12 @@ public class TestJUnit {
         TestJUnit testJUnit = new TestJUnit();
         // testJUnit.test10();
         // System.out.println("127.0.0.1");
-        testJUnit.test17();
+        testJUnit.test04_2();
+    }
+
+    private void test19() {
+        Neko record = TestUtils.getRecord("F://abc//test.amr");
+        System.out.println("record = " + record);
     }
 
     private void test18() {
@@ -202,9 +206,22 @@ public class TestJUnit {
         System.out.println("s = " + s);
     }
 
+    private void test04_2(){
+        SqlSession sqlSession = SophonInitConfig.getSqlSession();
+        ManagerDao mapper = sqlSession.getMapper(ManagerDao.class);
+        Manager manager = new Manager();
+        manager.setFdAccount("177777777");
+        manager.setFdNickname("昵称");
+        manager.setFdRole('0');
+        boolean b = mapper.insertManager(manager);
+        sqlSession.commit();
+        sqlSession.close();
+        System.out.println("b = " + b);
+        Scanner scanner = new Scanner(System.in);
+        scanner.next();
+    }
     private void test04() {
-        SophonInitConfig sophonInitConfig = new SophonInitConfig();
-        SqlSession sqlSession = sophonInitConfig.getSqlSession();
+        SqlSession sqlSession = SophonInitConfig.getSqlSession();
         ManagerDao mapper = sqlSession.getMapper(ManagerDao.class);
         List<Manager> managers = mapper.selectAllManager();
         for (Manager manager : managers) {

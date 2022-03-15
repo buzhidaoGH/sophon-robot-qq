@@ -1,6 +1,7 @@
 package pvt.example.sophon.config;
 
 import love.forte.common.ioc.annotation.ConfigBeans;
+import net.mamoe.mirai.Bot;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -10,6 +11,7 @@ import pvt.example.sophon.test.TestJUnit;
 import pvt.example.sophon.utils.YamlUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
@@ -35,25 +37,29 @@ public class SophonInitConfig {
         Properties properties = new Properties();
         properties.setProperty("databasePath", databasePath);
         sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream, properties);
+        try {
+            resourceAsStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         int threadPoolSize = Integer.parseInt(config.get("thread-pool"));
         executorService = Executors.newFixedThreadPool(threadPoolSize);
     }
 
     public static SqlSession getSqlSession() {
-        // 默认不会自动提交事务
         return sqlSessionFactory.openSession();
     }
 
     public static SqlSession getSqlSessionAuto() {
-        // 自动commit提交事务
         return sqlSessionFactory.openSession(true);
     }
+
 
     public static ExecutorService getThreadPool() {
         return executorService;
     }
 
-    /*public static Connection getConnection() {
-        return getSqlSession().getConnection();
-    }*/
+    public static Bot getMiraiBot(long qq) {
+        return Bot.getInstanceOrNull(qq);
+    }
 }

@@ -9,7 +9,6 @@ import love.forte.simbot.api.message.containers.AccountInfo;
 import love.forte.simbot.api.message.events.PrivateMsg;
 import love.forte.simbot.api.sender.Sender;
 import love.forte.simbot.filter.MatchType;
-import love.forte.simbot.listener.ListenerResultFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pvt.example.sophon.config.Constants;
@@ -24,14 +23,6 @@ public class SophonPrivateListen {
     private static final Logger LOG = LoggerFactory.getLogger(SophonPrivateListen.class);
     @Depend
     private SophonPrivateListenHandle handle;
-    @Depend
-    private ListenerResultFactory listenerResultFactory;
-
-    @Listen(PrivateMsg.class)
-    public void sophonPrivateTest(PrivateMsg privateMsg, Sender sender) {
-        AccountInfo accountInfo = privateMsg.getAccountInfo();
-        LOG.info("账号:{},Msg:{}", accountInfo.getAccountCode(), privateMsg.getMsg());
-    }
 
     @Listen(PrivateMsg.class)
     @Filters(value = @Filter(value = Constants.REGEX_SERVE_BEGIN, trim = true, matchType = MatchType.REGEX_FIND))
@@ -55,10 +46,13 @@ public class SophonPrivateListen {
                 handle.senderServeMusic(accountInfo, sender, serves);
                 break;
             case Constants.SERVE_SING:
-                handle.senderServeSing(accountInfo,sender,serves);
+                handle.senderServeSing(accountInfo, sender, serves);
+                break;
+            case Constants.SERVE_HELP:
+                handle.senderMsgHelp(accountInfo, sender);
                 break;
             default:
-                handle.senderMsgHelp(accountInfo, sender);
+                sender.sendPrivateMsg(accountInfo, Constants.MESSAGE_SERVE_NO_EXIST);
         }
     }
 }

@@ -16,11 +16,11 @@ import pvt.example.sophon.service.DictService;
 import java.util.List;
 
 /**
- * 类&emsp;&emsp;名：ManagerPrivateListenHandle <br/>
- * 描&emsp;&emsp;述：ManagerPrivateListen监听器的Handle处理器类
+ * 类&emsp;&emsp;名：ManagerMessageListenHandle <br/>
+ * 描&emsp;&emsp;述：ManagerMessageListen监听器的Handle处理器类
  */
 @Beans
-public class ManagerPrivateListenHandle {
+public class ManagerMessageListenHandle {
     @Depend
     private DictService dictService;
     @Depend

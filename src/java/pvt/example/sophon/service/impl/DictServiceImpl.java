@@ -16,24 +16,34 @@ import java.util.List;
  */
 @Beans
 public class DictServiceImpl implements DictService {
-    private final DictDao dictDao;
-
-    {
-        SqlSession sqlSession = SophonInitConfig.getSqlSession();
-        dictDao = sqlSession.getMapper(DictDao.class);
-    }
-
     @Override
     public List<String> getCommandList() {
+        SqlSession sqlSession = SophonInitConfig.getSqlSession();
+        DictDao dictDao = sqlSession.getMapper(DictDao.class);
         Dict command = dictDao.getByFdKey("command");
+        sqlSession.close();
         String fdValue = command.getFdValue();
         return Arrays.asList(fdValue.split(","));
     }
 
     @Override
     public List<String> getServeList() {
+        SqlSession sqlSession = SophonInitConfig.getSqlSession();
+        DictDao dictDao = sqlSession.getMapper(DictDao.class);
         Dict serve = dictDao.getByFdKey("serve");
+        sqlSession.close();
         String fdValue = serve.getFdValue();
         return Arrays.asList(fdValue.split(","));
     }
+
+    @Override
+    public List<String> getGroupList() {
+        SqlSession sqlSession = SophonInitConfig.getSqlSession();
+        DictDao dictDao = sqlSession.getMapper(DictDao.class);
+        Dict group = dictDao.getByFdKey("group");
+        sqlSession.close();
+        String fdValue = group.getFdValue();
+        return Arrays.asList(fdValue.split(","));
+    }
+
 }

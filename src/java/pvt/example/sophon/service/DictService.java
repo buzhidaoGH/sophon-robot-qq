@@ -10,4 +10,6 @@ public interface DictService {
     public List<String> getCommandList();
 
     public List<String> getServeList();
+
+    public List<String> getGroupList();
 }
