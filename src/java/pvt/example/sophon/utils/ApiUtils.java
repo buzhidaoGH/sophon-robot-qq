@@ -3,7 +3,9 @@ package pvt.example.sophon.utils;
 import com.alibaba.fastjson.JSONObject;
 import pvt.example.sophon.config.Constants;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,6 +13,10 @@ import java.util.Map;
  * 描&emsp;&emsp;述：网络Api接口工具
  */
 public class ApiUtils {
+    /**
+     * 天气API
+     * @param city 城市名
+     */
     public static Map<String, String> queryWeatherByCityApi(String city) {
         Map<String, String> map = new HashMap<>();
         String url = Constants.WEATHER_API + city;
@@ -35,6 +41,10 @@ public class ApiUtils {
         return map;
     }
 
+    /**
+     * 网易音乐api
+     * @param musicName 音乐名称
+     */
     public static Map<String, String> queryMusic163ByName(String musicName) {
         Map<String, String> map = new HashMap<>();
         map.put("s", musicName);
@@ -54,5 +64,38 @@ public class ApiUtils {
         map.put("picUrl", picUrl);
         map.put("musicUrl", Constants.MUSIC163_ADDRESS_API.replace("musicid", map.get("id")));
         return map;
+    }
+
+    /**
+     * 随机笑话
+     */
+    public static String randomJoke() {
+        return HttpClientUtils.sendGetHttp(Constants.RANDOM_JOKE, null);
+    }
+
+    /**
+     * 历史上的今天
+     */
+    public static String lsjtEvents() {
+        return HttpClientUtils.sendGetHttp(Constants.LSJT_EVENTS, null);
+    }
+
+    /**
+     * 哔哩哔哩新华社今日动态
+     */
+    public static List<Map<String, String>> biliXhsDynamic() {
+        String historyJson = HttpClientUtils.sendGetHttp(Constants.XHS_DYNAMIC, null);
+        List<Map<String, String>> descMaps = JsonParseUtils.xhsJsonGetCards(historyJson);
+        List<Map<String, String>> cardsMap = new ArrayList<>();
+        assert descMaps != null;
+        for (Map<String, String> desc : descMaps) {
+            long timestamp = Long.parseLong(desc.get("timestamp"));
+            if (!DateUtils.timestampIsToDay(timestamp * 1000)) { continue; }
+            Map<String, String> cardMap = JsonParseUtils.xhsJsonCardHandler(desc.get("card"));
+            if (null == cardMap.get("title")) { continue; }
+            cardMap.put("time", DateUtils.timestampToFormat(timestamp * 1000, "yyyy-MM-dd HH:mm"));
+            cardsMap.add(cardMap);
+        }
+        return cardsMap;
     }
 }

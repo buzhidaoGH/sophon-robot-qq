@@ -3,10 +3,7 @@ package pvt.example.sophon.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
@@ -65,5 +62,19 @@ public class FileIOUtils {
             LOG.warn(e.getMessage());
         }
         return open;
+    }
+
+    public static boolean deleteFile(String fileName) {
+        File file = new File(fileName);
+        if (file.isFile() && file.exists()) {
+            return file.delete();
+        }
+        return false;
+    }
+    public static boolean deleteFile(File file) {
+        if (file.isFile() && file.exists()) {
+            return file.delete();
+        }
+        return false;
     }
 }

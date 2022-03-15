@@ -9,8 +9,11 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pvt.example.sophon.SophonRobotInitConfig;
+import pvt.example.sophon.config.Constants;
 import pvt.example.sophon.config.SophonInitConfig;
+import pvt.example.sophon.dao.GroupDao;
 import pvt.example.sophon.dao.ManagerDao;
+import pvt.example.sophon.domain.Group;
 import pvt.example.sophon.domain.Manager;
 import pvt.example.sophon.entity.JVMInfo;
 import pvt.example.sophon.entity.SophonInfo;
@@ -40,7 +43,49 @@ public class TestJUnit {
         TestJUnit testJUnit = new TestJUnit();
         // testJUnit.test10();
         // System.out.println("127.0.0.1");
-        testJUnit.test04_2();
+        testJUnit.test25();
+    }
+
+    private void test25() {
+        List<Map<String, String>> cardsMap = ApiUtils.biliXhsDynamic();
+        for (Map<String, String> stringStringMap : cardsMap) {
+            System.out.println("stringStringMap = " + stringStringMap);
+        }
+    }
+
+    private void test24() {
+        long start = System.currentTimeMillis();
+        boolean sameDay = DateUtils.isSameDay(new Date(), new Date());
+        long end = System.currentTimeMillis();
+        System.out.println("end-start = " + (end - start));
+        boolean b = DateUtils.timestampIsToDay(2123532);
+        start = System.currentTimeMillis();
+        System.out.println("start - end " + (start - end));
+    }
+
+    private void test23() {
+        String s = ApiUtils.lsjtEvents();
+        System.out.println("s = " + s);
+    }
+
+    private void test22() {
+        String s = ApiUtils.randomJoke();
+        System.out.println("s = " + s);
+    }
+
+    private void test21() {
+        String cmd = Constants.COMMAND_MP3_TO_AMR("8f42", "output.amr");
+        System.out.println("cmd = " + cmd);
+        String res = ProcessUtils.execResult(cmd);
+        System.out.println(res);
+    }
+
+    private void test20() {
+        SqlSession sqlSession = SophonInitConfig.getSqlSession();
+        GroupDao groupDao = sqlSession.getMapper(GroupDao.class);
+        Group group = groupDao.selectOneByGroupCode("groupCode");
+        sqlSession.close();
+        System.out.println("group = " + group);
     }
 
     private void test19() {
@@ -53,7 +98,6 @@ public class TestJUnit {
                                                          "http://music.163.com/song/media/outer/url?id=1849998058.mp3",
                                                          "dir/");
         System.out.println("s = " + s);
-
     }
 
     private void test17() {
@@ -171,8 +215,7 @@ public class TestJUnit {
             System.out.println("Connection to SQLite has been established.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
                 if (conn != null) {
                     conn.close();
@@ -206,7 +249,7 @@ public class TestJUnit {
         System.out.println("s = " + s);
     }
 
-    private void test04_2(){
+    private void test04_2() {
         SqlSession sqlSession = SophonInitConfig.getSqlSession();
         ManagerDao mapper = sqlSession.getMapper(ManagerDao.class);
         Manager manager = new Manager();
@@ -220,6 +263,7 @@ public class TestJUnit {
         Scanner scanner = new Scanner(System.in);
         scanner.next();
     }
+
     private void test04() {
         SqlSession sqlSession = SophonInitConfig.getSqlSession();
         ManagerDao mapper = sqlSession.getMapper(ManagerDao.class);

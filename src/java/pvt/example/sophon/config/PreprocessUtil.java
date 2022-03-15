@@ -62,6 +62,7 @@ public class PreprocessUtil {
      */
     public boolean botIsGroupAdmin(GroupInfo groupInfo) {
         String botCode = botManager.getDefaultBot().getBotInfo().getAccountCode();
+        System.out.println("botCode = " + botCode);
         GroupFullInfo groupFullInfo = getGroupFullInfoByGroupInfo(groupInfo);
         if (botCode.equals(groupFullInfo.getOwner().getAccountCode())) {
             return true;
@@ -73,4 +74,7 @@ public class PreprocessUtil {
         }
         return false;
     }
+
+
+
 }

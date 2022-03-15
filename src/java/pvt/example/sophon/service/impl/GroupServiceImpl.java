@@ -30,6 +30,10 @@ public class GroupServiceImpl implements GroupService {
     private PreprocessUtil preprocessUtil;
     private static final Logger LOG = LoggerFactory.getLogger(GroupServiceImpl.class);
 
+    /**
+     * @param groupCode 群号
+     * @return 通过群号返回 group
+     */
     @Override
     public Group searchGroupByGroupCode(String groupCode) {
         SqlSession sqlSession = SophonInitConfig.getSqlSession();
@@ -39,6 +43,10 @@ public class GroupServiceImpl implements GroupService {
         return group;
     }
 
+    /**
+     * @param groupInfo 基本信息
+     * @return 通过群基本信息插入数据到tab表中
+     */
     @Override
     public Group insertGroup(GroupInfo groupInfo) {
         SqlSession sqlSession = SophonInitConfig.getSqlSession();
@@ -63,11 +71,24 @@ public class GroupServiceImpl implements GroupService {
         return flag ? group : null;
     }
 
+    /**
+     * @param group 群对象
+     * @return 根据群对象更新数据
+     */
     @Override
-    public Group updateGroup(GroupInfo groupInfo) {
-        return null;
+    public boolean updateGroup(Group group) {
+        SqlSession sqlSession = SophonInitConfig.getSqlSession();
+        GroupDao groupDao = sqlSession.getMapper(GroupDao.class);
+        boolean flag = groupDao.updateGroup(group);
+        sqlSession.commit();
+        sqlSession.close();
+        return flag;
     }
 
+    /**
+     * @param groupCode 群号
+     * @return 根据群号删除
+     */
     @Override
     public boolean deleteGroupByGroupCode(String groupCode) {
         SqlSession sqlSession = SophonInitConfig.getSqlSession();
@@ -99,5 +120,17 @@ public class GroupServiceImpl implements GroupService {
         mapGroup.put("lastSpeak", DateUtils.timestampToFormat(lastTime.get("lastSpeakTime"), "yyyy-MM-dd HH:mm"));
         mapGroup.put("lastJoin", DateUtils.timestampToFormat(lastTime.get("lastJoinTime"), "yyyy-MM-dd HH:mm"));
         return mapGroup;
+    }
+
+    @Override
+    public boolean groupIsEnable(String groupCode) {
+        SqlSession sqlSession = SophonInitConfig.getSqlSession();
+        GroupDao groupDao = sqlSession.getMapper(GroupDao.class);
+        Group group = groupDao.selectOneByGroupCode(groupCode);
+        sqlSession.close();
+        if (group==null){
+            return false;
+        }
+        return group.getFdEnable() != 0;
     }
 }

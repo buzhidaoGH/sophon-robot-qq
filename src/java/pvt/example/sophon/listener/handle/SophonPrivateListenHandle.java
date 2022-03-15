@@ -13,7 +13,6 @@ import pvt.example.sophon.utils.ApiUtils;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
 
 /**
  * 类&emsp;&emsp;名：SophonPrivateListenHandle <br/>
@@ -46,8 +45,7 @@ public class SophonPrivateListenHandle {
             sender.sendPrivateMsg(accountInfo, "地区天气查看：server weather 地区");
             return;
         }
-        ExecutorService threadPool = SophonInitConfig.getThreadPool();
-        threadPool.execute(() -> this.asyncFindWeather(accountInfo, sender, serves[2]));
+        SophonInitConfig.getThreadPool().execute(() -> this.asyncFindWeather(accountInfo, sender, serves[2]));
         sender.sendPrivateMsg(accountInfo, "天气查询需要一定时间，请耐心等待，梓妹正在处理中[CAT:face,id=130]~");
     }
 

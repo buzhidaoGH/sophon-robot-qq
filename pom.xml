@@ -100,6 +100,7 @@
   </dependencies>
 
   <build>
+    <finalName>SophonRobot-${project.version}</finalName>
     <resources>
       <resource>
         <directory>${project.basedir}/src/resources</directory>
@@ -121,9 +122,9 @@
               <useUniqueVersions>false</useUniqueVersions>
               <classpathPrefix>lib/</classpathPrefix>
               <!-- testMain -->
-              <mainClass>pvt.example.sophon.test.TestJUnit</mainClass>
+              <!--<mainClass>pvt.example.sophon.test.TestJUnit</mainClass>-->
               <!-- applicationMain -->
-              <!--<mainClass>pvt.example.sophon.SophonRobotApplication</mainClass>-->
+              <mainClass>pvt.example.sophon.SophonRobotApplication</mainClass>
             </manifest>
           </archive>
         </configuration>
@@ -142,12 +143,18 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${basedir}/target/database</outputDirectory>
+              <outputDirectory>${project.build.directory}</outputDirectory>
               <resources>
                 <resource>
-                  <directory>${project.basedir}/database</directory>
+                  <targetPath>${project.build.directory}/database</targetPath>
+                  <directory>${basedir}/database</directory>
+                </resource>
+                <resource>
+                  <targetPath>${project.build.directory}/dir</targetPath>
+                  <directory>${basedir}/dir</directory>
                 </resource>
               </resources>
+              <encoding>UTF-8</encoding>
             </configuration>
           </execution>
         </executions>

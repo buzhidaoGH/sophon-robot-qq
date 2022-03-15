@@ -23,6 +23,7 @@
     <target>System.out</target>
     <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
       <pattern>${colorPattern2}</pattern>
+      <charset>UTF-8</charset>
     </encoder>
   </appender>
 
@@ -39,10 +40,11 @@
     </rollingPolicy>
     <!--日志文件最大的大小-->
     <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-      <maxFileSize>10MB</maxFileSize>
+      <maxFileSize>5MB</maxFileSize>
     </triggeringPolicy>
-    <encoder>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
       <pattern>${myPattern2}</pattern>
+      <charset>UTF-8</charset>
     </encoder>
   </appender>
 

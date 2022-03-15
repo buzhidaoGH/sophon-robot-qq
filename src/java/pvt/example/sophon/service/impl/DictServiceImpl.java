@@ -46,4 +46,13 @@ public class DictServiceImpl implements DictService {
         return Arrays.asList(fdValue.split(","));
     }
 
+    @Override
+    public List<String> getGroupServeList() {
+        SqlSession sqlSession = SophonInitConfig.getSqlSession();
+        DictDao dictDao = sqlSession.getMapper(DictDao.class);
+        Dict groupServe = dictDao.getByFdKey("groupserve");
+        sqlSession.close();
+        String fdValue = groupServe.getFdValue();
+        return Arrays.asList(fdValue.split(","));
+    }
 }

@@ -12,8 +12,9 @@ import java.util.Map;
 public interface GroupService {
     public Group searchGroupByGroupCode(String groupCode);
     public Group insertGroup(GroupInfo groupInfo);
-    public Group updateGroup(GroupInfo groupInfo);
+    public boolean updateGroup(Group group);
     public boolean deleteGroupByGroupCode(String groupCode);
-
     Map<String, String> getGroupInfo(GroupInfo groupInfo);
+
+    boolean groupIsEnable(String groupCode);
 }

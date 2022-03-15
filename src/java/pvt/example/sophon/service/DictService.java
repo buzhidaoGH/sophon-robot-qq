@@ -12,4 +12,6 @@ public interface DictService {
     public List<String> getServeList();
 
     public List<String> getGroupList();
+
+    public List<String> getGroupServeList();
 }

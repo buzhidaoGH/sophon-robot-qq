@@ -53,6 +53,6 @@ public class StringUtils {
      * UUID
      */
     public static String getUUID(){
-        return UUID.randomUUID().toString().replaceAll("-", "");
+        return UUID.randomUUID().toString().replaceAll("-", "").substring(15);
     }
 }
