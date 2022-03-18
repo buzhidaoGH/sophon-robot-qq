@@ -84,7 +84,7 @@ public class ApiUtils {
      * 哔哩哔哩新华社今日动态
      */
     public static List<Map<String, String>> biliXhsDynamic() {
-        String historyJson = HttpClientUtils.sendGetHttp(Constants.XHS_DYNAMIC, null);
+        String historyJson = HttpClientUtils.sendGetHttp(Constants.URL_DYNAMIC(), null);
         List<Map<String, String>> descMaps = JsonParseUtils.xhsJsonGetCards(historyJson);
         List<Map<String, String>> cardsMap = new ArrayList<>();
         assert descMaps != null;

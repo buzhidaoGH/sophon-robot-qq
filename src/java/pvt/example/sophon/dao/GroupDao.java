@@ -11,6 +11,8 @@ import java.util.List;
 public interface GroupDao {
     public List<Group> selectAllGroup();
 
+    public List<Group> selectAllGroupOn();
+
     public Group selectOneByGroupCode(String groupCode);
 
     public boolean deleteGroupByGroupCode(String groupCode);
@@ -18,4 +20,6 @@ public interface GroupDao {
     public boolean insertGroup(Group group);
 
     public boolean updateGroup(Group group);
+
+    public Group selectOneIsEnableAndPer(String groupCode);
 }

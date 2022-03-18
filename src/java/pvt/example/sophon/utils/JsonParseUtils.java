@@ -17,8 +17,8 @@ public class JsonParseUtils {
         return JSONObject.parseObject(json);
     }
 
-    public static List<Map<String, String>> xhsJsonGetCards(String json) {
-        JSONObject jsonObject = JSONObject.parseObject(json);
+    public static List<Map<String, String>> xhsJsonGetCards(String blJson) {
+        JSONObject jsonObject = JSONObject.parseObject(blJson);
         if (jsonObject.getIntValue("code") != 0) {return null;}
         JSONArray jsonArray = jsonObject.getJSONObject("data").getJSONArray("cards");
         ArrayList<Map<String, String>> mapArrayList = new ArrayList<>();
@@ -33,8 +33,18 @@ public class JsonParseUtils {
         return mapArrayList;
     }
 
-    public static Map<String,String> xhsJsonCardHandler(String json){
-        JSONObject jsonObject = JSONObject.parseObject(json);
+    public static Map<String,String> firstCardMsgHandler(String blJson){
+        List<Map<String, String>> maps = xhsJsonGetCards(blJson);
+        if (maps==null || maps.size()==0) return null;
+        Map<String, String> cardMap = maps.get(0);
+        long timestamp = Long.parseLong(cardMap.get("timestamp")) * 1000;
+        cardMap = xhsJsonCardHandler(cardMap.get("card"));
+        cardMap.put("time", DateUtils.timestampToFormat(timestamp,"yyyy-MM-dd HH:mm"));
+        return cardMap;
+    }
+
+    public static Map<String,String> xhsJsonCardHandler(String cardJson){
+        JSONObject jsonObject = JSONObject.parseObject(cardJson);
         Map<String, String> cardMap = new HashMap<>();
         cardMap.put("desc", jsonObject.getString("desc"));
         cardMap.put("dynamic", jsonObject.getString("dynamic"));

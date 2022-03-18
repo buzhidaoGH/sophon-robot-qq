@@ -37,6 +37,24 @@ public class DictServiceImpl implements DictService {
     }
 
     @Override
+    public String getFriendVerification() {
+        SqlSession sqlSession = SophonInitConfig.getSqlSession();
+        DictDao dictDao = sqlSession.getMapper(DictDao.class);
+        Dict serve = dictDao.getByFdKey("friendVerification");
+        sqlSession.close();
+        return serve.getFdValue();
+    }
+
+    @Override
+    public String getGroupVerification() {
+        SqlSession sqlSession = SophonInitConfig.getSqlSession();
+        DictDao dictDao = sqlSession.getMapper(DictDao.class);
+        Dict serve = dictDao.getByFdKey("groupVerification");
+        sqlSession.close();
+        return serve.getFdValue();
+    }
+
+    @Override
     public List<String> getGroupList() {
         SqlSession sqlSession = SophonInitConfig.getSqlSession();
         DictDao dictDao = sqlSession.getMapper(DictDao.class);

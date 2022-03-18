@@ -22,6 +22,9 @@ public class SophonRobotApplication {
 
     public static void main(String[] args) {
         SimbotContext run = SimbotApp.run(SophonRobotApplication.class, args);
+        // for (String allBean : run.getAllBeans()) {
+        //     System.out.println(allBean);
+        // }
         LOG.info("智梓系统成功启动!");
         FileIOUtils.printFileLine("/config/banner.txt");
     }

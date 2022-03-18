@@ -43,7 +43,13 @@ public class TestJUnit {
         TestJUnit testJUnit = new TestJUnit();
         // testJUnit.test10();
         // System.out.println("127.0.0.1");
-        testJUnit.test25();
+        testJUnit.test26();
+    }
+
+    private void test26() {
+        String historyJson = HttpClientUtils.sendGetHttp(Constants.URL_DYNAMIC(), null);
+        Map<String, String> cardMap = JsonParseUtils.firstCardMsgHandler(historyJson);
+        System.out.println("cardMap = " + cardMap);
     }
 
     private void test25() {

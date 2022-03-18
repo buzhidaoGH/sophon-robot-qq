@@ -43,6 +43,15 @@ public class GroupServiceImpl implements GroupService {
         return group;
     }
 
+    @Override
+    public Group groupIsEnableAndPer(String groupCode) {
+        SqlSession sqlSession = SophonInitConfig.getSqlSession();
+        GroupDao groupDao = sqlSession.getMapper(GroupDao.class);
+        Group group = groupDao.selectOneIsEnableAndPer(groupCode);
+        sqlSession.close();
+        return group;
+    }
+
     /**
      * @param groupInfo 基本信息
      * @return 通过群基本信息插入数据到tab表中
@@ -128,9 +137,22 @@ public class GroupServiceImpl implements GroupService {
         GroupDao groupDao = sqlSession.getMapper(GroupDao.class);
         Group group = groupDao.selectOneByGroupCode(groupCode);
         sqlSession.close();
-        if (group==null){
+        if (group == null) {
             return false;
         }
         return group.getFdEnable() != 0;
+    }
+
+    @Override
+    public List<String> searchAllGroupCodeOn() {
+        SqlSession sqlSession = SophonInitConfig.getSqlSession();
+        GroupDao groupDao = sqlSession.getMapper(GroupDao.class);
+        List<Group> groups = groupDao.selectAllGroupOn();
+        sqlSession.close();
+        List<String> groupCodeList = new ArrayList<>();
+        for (Group group : groups) {
+            groupCodeList.add(group.getFdGroupCode());
+        }
+        return groupCodeList;
     }
 }

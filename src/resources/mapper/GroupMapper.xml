@@ -42,4 +42,13 @@
     WHERE fd_group_code = #{groupCode}
   </select>
 
+  <select id="selectAllGroupOn" resultMap="BaseResultMap">
+    <include refid="selectBase" />
+    WHERE `fd_enable` = 1
+  </select>
+  <select id="selectOneIsEnableAndPer" resultMap="BaseResultMap">
+    <include refid="selectBase" />
+    WHERE `fd_enable` = 1 AND `fd_jurisdiction` = 1
+  </select>
+
 </mapper>

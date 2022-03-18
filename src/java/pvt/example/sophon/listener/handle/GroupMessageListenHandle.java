@@ -333,9 +333,13 @@ public class GroupMessageListenHandle {
     public void sendNewsXhsWithGroup(GroupAccountInfo accountInfo, GroupInfo groupInfo, Sender sender) {
         SophonInitConfig.getThreadPool().execute(() -> {
             MessageContentBuilder msgBuilder = builderFactory.getMessageContentBuilder();
-            msgBuilder.text("消息来源于哔哩哔哩新华社:");
+            msgBuilder.text("消息来源于哔哩哔哩动态:");
             List<Map<String, String>> cardsMap = ApiUtils.biliXhsDynamic();
-            cardsMap=cardsMap.subList(0, 2);
+            if (cardsMap.size()==0){
+                msgBuilder.text("\n今天还没有最新消息哦~");
+                sender.sendGroupMsg(groupInfo, msgBuilder.build());
+                return;
+            }
             for (Map<String, String> cardMap : cardsMap) {
                 msgBuilder.text("\n---------分割行------------\n\n");
                 msgBuilder.text("时间:【" + cardMap.get("time") + "】\n");

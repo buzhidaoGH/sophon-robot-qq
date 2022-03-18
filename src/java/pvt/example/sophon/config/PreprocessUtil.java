@@ -9,6 +9,8 @@ import love.forte.simbot.api.message.results.GroupFullInfo;
 import love.forte.simbot.api.message.results.GroupMemberInfo;
 import love.forte.simbot.api.message.results.GroupMemberList;
 import love.forte.simbot.api.sender.Getter;
+import love.forte.simbot.api.sender.Sender;
+import love.forte.simbot.api.sender.Setter;
 import love.forte.simbot.bot.Bot;
 import love.forte.simbot.bot.BotManager;
 
@@ -30,6 +32,16 @@ public class PreprocessUtil {
     public GroupFullInfo getGroupFullInfoByGroupInfo(GroupInfo groupInfo) {
         Getter getter = botManager.getDefaultBot().getSender().GETTER;
         return getter.getGroupInfo(Containers.getGroupContainer(groupInfo));
+    }
+
+    public Setter getSetter(){
+        return botManager.getDefaultBot().getSender().SETTER;
+    }
+    public Sender getSender(){
+        return botManager.getDefaultBot().getSender().SENDER;
+    }
+    public Getter getGetter(){
+        return botManager.getDefaultBot().getSender().GETTER;
     }
 
     /**

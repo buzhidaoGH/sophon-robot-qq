@@ -11,6 +11,10 @@ public interface DictService {
 
     public List<String> getServeList();
 
+    public String getFriendVerification();
+
+    public String getGroupVerification();
+
     public List<String> getGroupList();
 
     public List<String> getGroupServeList();

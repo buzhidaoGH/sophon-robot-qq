@@ -10,7 +10,7 @@ import java.util.Map;
  * 类&emsp;&emsp;名：SystemInfo <br/>
  * 描&emsp;&emsp;述：操作系统系统信息
  */
-@Beans(init = true)
+@Beans
 public class SystemInfo {
     private final String wanIp;
     private final String lanIp;

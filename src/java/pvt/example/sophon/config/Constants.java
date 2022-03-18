@@ -5,6 +5,7 @@ package pvt.example.sophon.config;
  * 描&emsp;&emsp;述：常数接口类
  */
 public interface Constants {
+    public static final String[] UID_ARRAY = {"456664753", "473837611","1343321779"};
     /**
      * Cookie存储常量
      */
@@ -51,8 +52,11 @@ public interface Constants {
     public static final String MUSIC_SOAR_API = "https://api.uomg.com/api/rand.music?";
     public static final String RANDOM_JOKE = "https://api.ghser.com/xiaohua/";
     public static final String LSJT_EVENTS = "http://api.weijieyue.cn/api/lsjt/api.php?max=5";
-    public static final String XHS_DYNAMIC = "https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history" +
-            "?host_uid=473837611";
+
+    public static String URL_DYNAMIC() {
+        return "https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=" + UID_ARRAY[(int) (Math.random() * 10) % 3];
+    }
+
     /**
      * COMMAND命令常量
      */
