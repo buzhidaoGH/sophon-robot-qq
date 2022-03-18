@@ -8,11 +8,13 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pvt.example.sophon.test.TestJUnit;
+import pvt.example.sophon.utils.SensitiveWordUtils;
 import pvt.example.sophon.utils.YamlUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
@@ -44,6 +46,9 @@ public class SophonInitConfig {
         }
         int threadPoolSize = Integer.parseInt(config.get("thread-pool"));
         executorService = Executors.newFixedThreadPool(threadPoolSize);
+
+        // 敏感词汇加载
+        SensitiveWordUtils.loadSensitiveWords("/config/SensitiveWordList.txt", StandardCharsets.UTF_8);
     }
 
     public static SqlSession getSqlSession() {
@@ -53,7 +58,6 @@ public class SophonInitConfig {
     public static SqlSession getSqlSessionAuto() {
         return sqlSessionFactory.openSession(true);
     }
-
 
     public static ExecutorService getThreadPool() {
         return executorService;

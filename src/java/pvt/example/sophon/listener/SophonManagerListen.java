@@ -4,20 +4,29 @@ import love.forte.common.ioc.annotation.Beans;
 import love.forte.common.ioc.annotation.Depend;
 import love.forte.simbot.annotation.Filters;
 import love.forte.simbot.annotation.Listen;
+import love.forte.simbot.annotation.ListenBreak;
+import love.forte.simbot.annotation.Priority;
 import love.forte.simbot.api.message.MessageContentBuilder;
 import love.forte.simbot.api.message.MessageContentBuilderFactory;
 import love.forte.simbot.api.message.assists.Permissions;
-import love.forte.simbot.api.message.containers.*;
+import love.forte.simbot.api.message.containers.AccountInfo;
+import love.forte.simbot.api.message.containers.BeOperatorInfo;
+import love.forte.simbot.api.message.containers.GroupInfo;
+import love.forte.simbot.api.message.containers.OperatorInfo;
 import love.forte.simbot.api.message.events.*;
 import love.forte.simbot.api.sender.Sender;
 import love.forte.simbot.api.sender.Setter;
 import love.forte.simbot.bot.BotManager;
+import love.forte.simbot.constant.PriorityConstant;
 import love.forte.simbot.filter.MostMatchType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pvt.example.sophon.config.PreprocessUtil;
 import pvt.example.sophon.domain.Group;
 import pvt.example.sophon.service.DictService;
 import pvt.example.sophon.service.GroupService;
 import pvt.example.sophon.utils.DateUtils;
+import pvt.example.sophon.utils.SensitiveWordUtils;
 
 import java.util.Objects;
 
@@ -37,12 +46,14 @@ public class SophonManagerListen {
     private BotManager botManager;
     @Depend
     private MessageContentBuilderFactory builderFactory;
+    private static final Logger LOG = LoggerFactory.getLogger(SophonManagerListen.class);
 
     /**
      * 好友申请监听
      */
     @Listen(FriendAddRequest.class)
     public void friendAddRequestListen(FriendAddRequest friendAddRequest, Setter setter) {
+        LOG.info("好友申请:昵称{}", friendAddRequest.getAccountInfo().getAccountNickname());
         String friendVerification = dictService.getFriendVerification();
         if (friendVerification.contains(Objects.requireNonNull(friendAddRequest.getText()))) {
             setter.setFriendAddRequest(friendAddRequest.getFlag(), null, false, false);
@@ -58,6 +69,7 @@ public class SophonManagerListen {
     public void groupAddRequestListen(GroupAddRequest groupAddRequest, Setter setter) {
         String text = groupAddRequest.getText();
         String groupVerification = dictService.getGroupVerification();
+        LOG.info("入群申请:昵称{}", groupAddRequest.getAccountInfo().getAccountNickname());
         assert text != null;
         if (text.contains(groupVerification)) {
             setter.setGroupAddRequest(groupAddRequest.getFlag(), true, false, "答案正确,欢迎光临");
@@ -76,6 +88,7 @@ public class SophonManagerListen {
         GroupMemberReduce.Type reduceType = gmReduce.getReduceType();
         GroupInfo groupInfo = gmReduce.getGroupInfo();
         AccountInfo accountInfo = gmReduce.getAccountInfo();
+        LOG.info("群成员减少:昵称{}", gmReduce.getAccountInfo().getAccountNickname());
         if (reduceType.equals(GroupMemberReduce.Type.LEAVE)) {
             sender.sendGroupMsg(groupInfo, String.format("%s 主动退出了本群", accountInfo.getAccountNickname()));
         } else {
@@ -93,6 +106,7 @@ public class SophonManagerListen {
     public void groupMemberReduce(GroupMemberIncrease gmIncrease, Sender sender) {
         GroupInfo groupInfo = gmIncrease.getGroupInfo();
         AccountInfo accountInfo = gmIncrease.getAccountInfo();
+        LOG.info("群成员增加:昵称{}", gmIncrease.getAccountInfo().getAccountNickname());
         MessageContentBuilder msgContent = builderFactory.getMessageContentBuilder();
         msgContent.at(accountInfo);
         msgContent.text(String.format("您于%s加入", DateUtils.timestampToFormat(gmIncrease.getTime() * 1000, "yyyy-MM-dd")))
@@ -114,6 +128,7 @@ public class SophonManagerListen {
         OperatorInfo operatorInfo = gmpChanged.getOperatorInfo();
         String afterChange = gmpChanged.getAfterChange().isOwnerOrAdmin() ? "管理者" : "普通成员";
         String beforeChange = gmpChanged.getBeforeChange().isOwnerOrAdmin() ? "管理者" : "普通成员";
+        LOG.info("群成员权限变动:{}由{}变为{}", gmpChanged.getAccountInfo().getAccountNickname(), beforeChange, afterChange);
         sender.sendGroupMsg(gmpChanged,
                             String.format("群内成员权限变动:\n%s 由 %s 变为 %s,\n操作人:%s", beOperatorInfo.getAccountNickname(),
                                           beforeChange, afterChange, operatorInfo.getAccountNickname()));
@@ -134,14 +149,24 @@ public class SophonManagerListen {
      * 群消息监听撤回(需要是管理员);群消息监听敏感词
      */
     @Listen(GroupMsg.class)
-    public void  groupMessageRetraction(GroupMsg groupMsg){
-        Permissions permission = groupMsg.getPermission();
-        System.out.println("permission = " + permission);
-        Permissions permission1 = groupMsg.getBotInfo().getPermission();
-        System.out.println("permission1==permission = " + (permission1 == permission));
-        System.out.println(groupMsg.getPermission().isOwnerOrAdmin());
-        System.out.println(groupMsg.getBotInfo().getPermission().isOwnerOrAdmin());
-        System.out.println("groupMsg.getText() = " + groupMsg.getText());
+    @Priority(PriorityConstant.FIFTH)
+    @Filters(customFilter = {"ListenGroupIsOnFilter"}, customMostMatchType = MostMatchType.ALL)
+    @ListenBreak
+    public boolean groupMessageRetraction(GroupMsg groupMsg, Sender sender, Setter setter) {
+        boolean ownerOrAdmin = groupMsg.getBotInfo().getPermission().isOwnerOrAdmin();
+        if (SensitiveWordUtils.checkSensitiveWord(groupMsg.getText())) {
+            LOG.info("群成员{}敏感语句:{}", groupMsg.getAccountInfo().getAccountNickname(), groupMsg.getText());
+            MessageContentBuilder msgContentBuilder = builderFactory.getMessageContentBuilder();
+            msgContentBuilder.at(groupMsg.getAccountInfo());
+            if (ownerOrAdmin && groupMsg.getPermission().isMember()) {
+                setter.setMsgRecall(groupMsg.getFlag());
+                msgContentBuilder.text("您的消息有敏感词，梓妹已撤回此消息");
+            } else {
+                msgContentBuilder.text("您的消息有敏感词，但是梓妹无权撤回此消息");
+            }
+            sender.sendGroupMsg(groupMsg.getGroupInfo(), msgContentBuilder.build());
+            return false;
+        }
+        return true;
     }
-
 }
