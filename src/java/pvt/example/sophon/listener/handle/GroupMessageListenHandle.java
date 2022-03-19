@@ -44,7 +44,7 @@ public class GroupMessageListenHandle {
         messageContentBuilder.text("group服务帮助命令：").face(12);
         messageContentBuilder.text("\n命令格式：@智梓 group option");
         for (String group : groupList) { messageContentBuilder.text("\n— " + group); }
-        sender.sendGroupMsg(groupInfo, messageContentBuilder.build());
+        sender.sendGroupMsgAsync(groupInfo, messageContentBuilder.build());
     }
 
     /**

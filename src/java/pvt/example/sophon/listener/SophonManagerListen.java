@@ -4,7 +4,6 @@ import love.forte.common.ioc.annotation.Beans;
 import love.forte.common.ioc.annotation.Depend;
 import love.forte.simbot.annotation.Filters;
 import love.forte.simbot.annotation.Listen;
-import love.forte.simbot.annotation.ListenBreak;
 import love.forte.simbot.annotation.Priority;
 import love.forte.simbot.api.message.MessageContentBuilder;
 import love.forte.simbot.api.message.MessageContentBuilderFactory;
@@ -151,8 +150,8 @@ public class SophonManagerListen {
     @Listen(GroupMsg.class)
     @Priority(PriorityConstant.FIFTH)
     @Filters(customFilter = {"ListenGroupIsOnFilter"}, customMostMatchType = MostMatchType.ALL)
-    @ListenBreak
-    public boolean groupMessageRetraction(GroupMsg groupMsg, Sender sender, Setter setter) {
+    // @ListenBreak
+    public void groupMessageRetraction(GroupMsg groupMsg, Sender sender, Setter setter) {
         boolean ownerOrAdmin = groupMsg.getBotInfo().getPermission().isOwnerOrAdmin();
         if (SensitiveWordUtils.checkSensitiveWord(groupMsg.getText())) {
             LOG.info("群成员{}敏感语句:{}", groupMsg.getAccountInfo().getAccountNickname(), groupMsg.getText());
@@ -165,8 +164,6 @@ public class SophonManagerListen {
                 msgContentBuilder.text("您的消息有敏感词，但是梓妹无权撤回此消息");
             }
             sender.sendGroupMsg(groupMsg.getGroupInfo(), msgContentBuilder.build());
-            return false;
         }
-        return true;
     }
 }

@@ -41,7 +41,7 @@ public interface Constants {
     public static final String REGEX_SERVE_BEGIN = "^(?i)serve"; // 以 serve 开头
     public static final String REGEX_SERVE_NO_BEGIN = "(?i)^(?!serve)"; // 不以 serve 开头
     public static final String REGEX_GROUP_BEGIN = "(?i)group"; // 包含 group
-    public static final String REGEX_GROUP_NO_BEGIN = "(?i)^(?!group)"; // 不包含 group
+    public static final String REGEX_GROUP_NO_BEGIN = "(?i)^((?!group).)*$"; // 不包含 group
     /**
      * API接口地址
      */
