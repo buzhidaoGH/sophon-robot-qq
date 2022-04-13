@@ -4,7 +4,6 @@ import love.forte.common.ioc.annotation.Beans;
 import love.forte.common.ioc.annotation.Depend;
 import love.forte.simbot.annotation.Filters;
 import love.forte.simbot.annotation.Listen;
-import love.forte.simbot.annotation.Priority;
 import love.forte.simbot.api.message.MessageContentBuilder;
 import love.forte.simbot.api.message.MessageContentBuilderFactory;
 import love.forte.simbot.api.message.assists.Permissions;
@@ -16,7 +15,6 @@ import love.forte.simbot.api.message.events.*;
 import love.forte.simbot.api.sender.Sender;
 import love.forte.simbot.api.sender.Setter;
 import love.forte.simbot.bot.BotManager;
-import love.forte.simbot.constant.PriorityConstant;
 import love.forte.simbot.filter.MostMatchType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +23,6 @@ import pvt.example.sophon.domain.Group;
 import pvt.example.sophon.service.DictService;
 import pvt.example.sophon.service.GroupService;
 import pvt.example.sophon.utils.DateUtils;
-import pvt.example.sophon.utils.SensitiveWordUtils;
 
 import java.util.Objects;
 
@@ -147,7 +144,7 @@ public class SophonManagerListen {
     /**
      * 群消息监听撤回(需要是管理员);群消息监听敏感词
      */
-    @Listen(GroupMsg.class)
+    /*@Listen(GroupMsg.class)
     @Priority(PriorityConstant.FIFTH)
     @Filters(customFilter = {"ListenGroupIsOnFilter"}, customMostMatchType = MostMatchType.ALL)
     // @ListenBreak
@@ -165,5 +162,5 @@ public class SophonManagerListen {
             }
             sender.sendGroupMsg(groupMsg.getGroupInfo(), msgContentBuilder.build());
         }
-    }
+    }*/
 }
